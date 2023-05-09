@@ -2,5 +2,15 @@
     {
         "title": "Test Title",
         "text": "Test text"
+    },
+    {
+        "title": "Goodbye",
+        "text": "I am also a test note",
+        "id": "e6b2d320-5263-4d1c-bb22-7e7469de0ab0"
+    },
+    {
+        "title": "Hello",
+        "text": "I am a test note",
+        "id": "4a74f4e4-d840-47ed-966e-44a2e29150db"
     }
 ]

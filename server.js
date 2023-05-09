@@ -19,15 +19,18 @@ app.use(express.static('public'));
 app.get('/', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/index.html'))
 );
+//Get route to notes page
 app.get('/notes', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
-
+ 
+//displaying all notes
 app.get('/api/notes', (req, res) => {
   console.info(`${req.method} request received for notes`);
   readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
+//displaying note on click
 app.get('/api/notes/:noteId', (req, res) => {
   console.info(`${req.method} request received for notes`);
 
@@ -46,7 +49,7 @@ app.get('/api/notes/:noteId', (req, res) => {
 });
 
 
-// POST Route for a new UX/UI tip
+// adding new note
 app.post('/api/notes', (req, res) => {
   console.info(`${req.method} request received to add a note`);
 
@@ -66,6 +69,7 @@ app.post('/api/notes', (req, res) => {
   }
 });
 
+//deleting a note on click
 app.delete('/api/notes/:id', (req, res) => {
   console.info(`${req.method} request received to delete note ${req.params.id}`);
 
@@ -81,7 +85,7 @@ app.delete('/api/notes/:id', (req, res) => {
 });
 
 
-
+//exporting to port
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT} 🚀`)
 );

@@ -28,6 +28,24 @@ app.get('/api/notes', (req, res) => {
   readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
+app.get('/api/notes/:noteId', (req, res) => {
+  console.info(`${req.method} request received for notes`);
+
+  readFromFile('./db/db.json').then((data) => {
+    const notes = JSON.parse(data);
+
+    if (req.params.noteId) {
+      // If a noteId is specified, find the note with that ID
+      const note = notes.find((note) => note.noteId === req.params.noteId);
+      res.json(note);
+    } else {
+      // If no noteId is specified, return all notes
+      res.json(notes);
+    }
+  });
+});
+
+
 // POST Route for a new UX/UI tip
 app.post('/api/notes', (req, res) => {
   console.info(`${req.method} request received to add a note`);
@@ -38,7 +56,7 @@ app.post('/api/notes', (req, res) => {
     const newNote = {
       title,
       text,
-      noteId: uuidv4(),
+      id: uuidv4(),
     };
 
     readAndAppend(newNote, './db/db.json');
@@ -48,17 +66,17 @@ app.post('/api/notes', (req, res) => {
   }
 });
 
-app.delete('/api/notes/:noteId', (req, res) => {
-  console.info(`${req.method} request received to delete note ${req.params.noteId}`);
+app.delete('/api/notes/:id', (req, res) => {
+  console.info(`${req.method} request received to delete note ${req.params.id}`);
 
-  const noteId = req.params.noteId;
+  const notesId = req.params.id;
 
   readFromFile('./db/db.json').then((data) => {
     const notes = JSON.parse(data);
-    const updatedNotes = notes.filter((note) => note.noteId !== noteId);
-
+    const updatedNotes = notes.filter((note) => note.id !== notesId);
+    console.log(notesId);
     writeToFile('./db/db.json', updatedNotes);
-    res.json(`Note with ID ${noteId} deleted successfully 🚀`);
+    res.json(`Note with ID ${notesId} deleted successfully 🚀`);
   });
 });
 
